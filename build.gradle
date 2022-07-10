@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = 'https://plugins.gradle.org/m2/' }
+    }
+}
+
+apply plugin: "java"
+
+group = project_Group
+version = project_Version
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo1.maven.org/maven2/'
+        metadataSources {
+             artifact() //Look directly for artifact
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.pushing-pixels:trident:1.2'
+    implementation 'com.github.kwhat:jnativehook:2.2.2'
+}
+
+task shadowJar(type: Jar) {
+    classifier 'release'
+    with jar
+
+
+    manifest {
+        attributes(
+                "Main-Class": "com.ruffian7.sevenclicker.AutoClicker"
+        )
+    }
+}
+
+build.dependsOn(shadowJar)
